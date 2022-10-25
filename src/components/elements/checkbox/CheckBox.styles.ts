@@ -31,6 +31,9 @@ export const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
   white-space: nowrap;
   width: 100%;
   height: 100%;
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 export const StyledCheckbox = styled.div<CheckBoxProps>`
@@ -40,7 +43,6 @@ export const StyledCheckbox = styled.div<CheckBoxProps>`
   font-size: 16px;
   text-align: center;
   line-height: 45px;
-  cursor: pointer;
   display: inline-block;
   width: 100%;
   height: 100%;

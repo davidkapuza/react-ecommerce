@@ -1,8 +1,8 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { ReactComponentElement } from "react";
+import { Route, RouterProps, Routes } from "react-router-dom";
 import { routes } from "./routes";
 
-export default class Router extends React.Component<{}>{
+export default class Router extends React.PureComponent<{}>{
   render() {
 
     return (

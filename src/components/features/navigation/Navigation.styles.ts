@@ -2,7 +2,6 @@ import { MenuIcon } from "components/icons/MenuIcon";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-
 export const NavBar = styled.nav`
   height: ${({ theme }) => theme.sizes.NavBarHeight};
   display: flex;
@@ -11,7 +10,7 @@ export const NavBar = styled.nav`
   width: 100%;
 `;
 
-export const NavList = styled.ul<{display: "flex" | "none"}>`
+export const NavList = styled.ul<{ display: "flex" | "none" }>`
   background: ${({ theme }) => theme.colors.White};
   top: ${({ theme }) => theme.sizes.NavBarHeight};
   position: absolute;
@@ -32,18 +31,22 @@ export const NavItem = styled.li`
   `}
 `;
 
-export const NavLink = styled(Link)`
-  font-family: 'Raleway';
+export const NavLink = styled(Link)<{$active: boolean}>`
+  font-family: "Raleway";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   padding: 0px 10px;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.Black};
+  ${({ $active }) => $active && css`
+    color: ${({ theme }) => theme.colors.SecondaryGreen};
+    box-shadow: 0 4px 0 currentcolor;
+  `}
+
   &:hover {
     color: ${({ theme }) => theme.colors.SecondaryGreen};
     box-shadow: 0 4px 0 currentcolor;
-    font-weight: 600;
   }
 `;
 
@@ -73,5 +76,3 @@ export const CartAndCurrencyContainer = styled.div`
   align-items: end;
   margin-bottom: 8px;
 `;
-
-

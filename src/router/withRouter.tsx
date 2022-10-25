@@ -1,8 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-
-
 export type WithRouterProps = {
   router?: {
     location: ReturnType<typeof useLocation>;

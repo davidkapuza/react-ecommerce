@@ -10,12 +10,13 @@ export const ProductsGridContainer = styled.article`
 `;
 
 export const HeaderContainer = styled(Header1)`
+  text-transform: capitalize;
   grid-column: 1 / -1;
 `;
 
 export const ProductImg = styled.img`
   margin-bottom: 24px;
-  object-fit: cover;
+  object-fit: contain;
   height: 330px;
   width: 100%;
 `;

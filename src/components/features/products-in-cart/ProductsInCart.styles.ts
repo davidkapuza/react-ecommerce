@@ -1,14 +1,6 @@
 import { PriceLabel } from "common/typography/typography";
 import styled, { css } from "styled-components";
 
-export const ProductSet = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-  margin: 40px 0;
-`;
-
 export const Product = styled.div`
   height: 100%;
   min-width: 293px;
@@ -44,17 +36,12 @@ export const ProductImg = styled.img`
 export const ProductsContainer = styled.div<{ secondary?: boolean }>`
   overflow-y: scroll;
   max-height: 420px;
+  border-bottom: 1px solid #E5E5E5;
   ${({ secondary, theme }) =>
     secondary &&
     css`
       max-height: 100%;
       overflow-y: auto;
-      & ${ProductSet} {
-        border-top: 1px solid ${theme.colors.LightGray};
-        padding: 30px 0;
-        margin: 0;
-        min-height: 337px;
-      }
       & ${Product} {
         min-width: 100%;
       }
@@ -72,6 +59,7 @@ export const ProductsContainer = styled.div<{ secondary?: boolean }>`
         }
       }
       & ${ProductImg} {
+        max-height: 288px
         width: 200px;
       }
     `}

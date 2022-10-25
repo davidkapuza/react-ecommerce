@@ -1,9 +1,13 @@
 import { Icon } from "components/icons/Icon";
 import styled, { css } from "styled-components";
 
-export const StyledIconBtn = styled.button<{ secondary?: boolean }>`
+export const StyledIconBtn = styled.button<{
+  secondary?: boolean;
+  filled?: boolean;
+}>`
   border: 1px solid ${({ theme }) => theme.colors.Black};
   background: none;
+  cursor: pointer;
   width: 24px;
   height: 24px;
   position: relative;
@@ -19,7 +23,7 @@ export const StyledIconBtn = styled.button<{ secondary?: boolean }>`
     margin: auto;
     text-align: center;
   }
-  ${({ secondary }) =>
+  ${({ secondary, filled }) =>
     secondary &&
     css`
       width: 45px;
@@ -27,7 +31,14 @@ export const StyledIconBtn = styled.button<{ secondary?: boolean }>`
 
       & ${Icon} {
         width: 15px;
-
+      }
+    `}
+  ${({ filled }) =>
+    filled &&
+    css`
+      background: ${({ theme }) => theme.colors.Black};
+      & ${Icon} {
+        color: ${({ theme }) => theme.colors.White};
       }
     `}
 `;

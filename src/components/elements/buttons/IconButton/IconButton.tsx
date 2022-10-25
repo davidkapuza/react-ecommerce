@@ -5,13 +5,18 @@ export interface IconButtonProps {
   secondary?: boolean;
   children?: ReactElement;
   onClick: () => void;
+  filled?: boolean;
 }
 
 export default class IconButton extends React.PureComponent<IconButtonProps> {
   render() {
-    const { secondary, children, onClick } = this.props;
+    const { filled, secondary, children, onClick } = this.props;
     return (
-      <StyledIconBtn secondary={secondary} onClick={() => onClick()}>
+      <StyledIconBtn
+        filled={filled}
+        secondary={secondary}
+        onClick={() => onClick()}
+      >
         {children}
       </StyledIconBtn>
     );

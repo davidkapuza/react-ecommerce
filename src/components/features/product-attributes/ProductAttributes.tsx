@@ -12,6 +12,7 @@ export interface AttributesProps {
   addToCartHandler?: (e: React.MouseEvent<HTMLElement>) => void;
   addToCart?: (attributes: Readonly<AttributesState>) => void;
   secondary?: boolean;
+  isProductPage?: boolean;
 }
 export interface AttributesState {
   [name: string]: any[] | [boolean];
@@ -64,9 +65,10 @@ class ProductAttributes extends React.PureComponent<
                 <CheckBox
                   key={id}
                   color={name.toLowerCase() === "color" ? value : "none"}
-                  secondary={this.props.secondary}
+                  secondary={this.props.secondary ?? false}
                   checked={this.state[name][attrIdx]}
-                  onChange={() => this.handleCheckboxChange(name, attrIdx)}
+                  isProductPage={this.props.isProductPage ?? false}
+                  onChange={() => this.props.secondary && this.handleCheckboxChange(name, attrIdx)}
                 >
                   {value}
                 </CheckBox>

@@ -15,6 +15,7 @@ import {
 interface ProductCustomisationProps {
   product: IProduct;
   dispatch: AppDispatch;
+  isProductPage?: boolean;
 }
 
 class ProductCustomisation extends React.PureComponent<ProductCustomisationProps> {
@@ -43,6 +44,7 @@ class ProductCustomisation extends React.PureComponent<ProductCustomisationProps
         <Subheader fontWeight="400">{product.brand}</Subheader>
         <ProductAttributes
           secondary
+          isProductPage={this.props.isProductPage ?? false}
           attributes={product.attributes}
           ref={(instance) => (this.attributesInstance = instance)}
           addToCart={(attributes: Readonly<AttributesState>) =>
@@ -56,6 +58,7 @@ class ProductCustomisation extends React.PureComponent<ProductCustomisationProps
         </PriceLabel>
         <ProductBtnContainer
           primary
+          disabled={!product.inStock}
           onClick={(e: React.MouseEvent<HTMLElement>) =>
             this.attributesInstance
               ? this.attributesInstance.addToCartHandler(e)

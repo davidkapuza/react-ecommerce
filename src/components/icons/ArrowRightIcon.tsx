@@ -2,7 +2,7 @@ import React from "react";
 import { Icon } from "./Icon";
 import { IconProps } from "./Icon";
 
-export class IncreaseIcon extends React.PureComponent<IconProps> {
+export class ArrowRightIcon extends React.PureComponent<IconProps> {
   render() {
     return (
       <Icon
@@ -11,10 +11,7 @@ export class IncreaseIcon extends React.PureComponent<IconProps> {
         className={this.props.className}
         onClick={() => this.props.onClick?.call(this)}
       >
-        <path
-          fill="currentColor"
-          d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"
-        />
+        <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
       </Icon>
     );
   }

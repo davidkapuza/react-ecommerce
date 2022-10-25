@@ -4,11 +4,13 @@ import {
   GalleryImage,
   SelectedImage,
   SelectedImgWrapper,
+  SliderWrapper,
 } from "./GalleryStyles";
 
 interface GalleryProps {
   gallery: [string];
   defaultImg: string;
+  inStock: boolean;
 }
 
 interface GalleryState {
@@ -21,7 +23,7 @@ export default class Gallery extends React.PureComponent<
 > {
   constructor(props: GalleryProps) {
     super(props);
-    this.state = { selectedImg: "" };
+    this.state = { selectedImg: ""};
   }
 
   selectImg(img: string) {
@@ -29,8 +31,10 @@ export default class Gallery extends React.PureComponent<
   }
   render() {
     return (
-      <>
-        <GalleryContainer>
+      <> 
+        <GalleryContainer
+          isOne={this.props.gallery.length <= 1}
+          inStock={this.props.inStock} >
           {this.props.gallery.map((img) => (
             <GalleryImage
               key={img}
@@ -40,7 +44,9 @@ export default class Gallery extends React.PureComponent<
           ))}
         </GalleryContainer>
         <SelectedImgWrapper>
-          <SelectedImage src={this.state.selectedImg || this.props.gallery[0]} />
+          <SelectedImage
+            src={this.state.selectedImg || this.props.gallery[0]}
+          />
         </SelectedImgWrapper>
       </>
     );

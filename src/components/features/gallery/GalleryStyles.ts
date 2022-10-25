@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-export const GalleryContainer = styled.div`
+export const GalleryContainer = styled.div<{inStock: boolean, isOne: boolean}>`
   display: flex;
   flex-direction: column;
   width: 91px;
   max-height: 50%;
   flex-shrink: 0;
-  overflow-y: scroll;
+  overflow-y: ${({inStock, isOne}) => !inStock || isOne ? "hidden" : "scroll"};
   overflow-x: clip;
 
   @media (max-width: ${({ theme }) => theme.media.Large}) {
@@ -34,3 +34,10 @@ export const SelectedImage = styled.img`
   object-fit: cover;
   padding: 0 40px 40px 40px;
 `;
+
+
+export const SliderWrapper = styled.div`
+
+
+
+`

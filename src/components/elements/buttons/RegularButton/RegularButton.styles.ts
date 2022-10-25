@@ -25,5 +25,6 @@ export const StyledButton = styled.button<RegularButtonProps>`
   &:disabled {
     opacity: 0.6;
     filter: saturate(60%);
+    cursor: not-allowed;
   }
 `;

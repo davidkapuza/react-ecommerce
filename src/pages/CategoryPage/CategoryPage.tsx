@@ -3,14 +3,12 @@ import { addToCart } from "app/cart/cart.slice";
 import { mapCurrenciesStateToProps } from "app/currencies/currencies.slice";
 import { AppDispatch } from "app/store";
 import { Header4, PriceLabel } from "common/typography/typography";
-import withRouter, { WithRouterProps } from "hooks/withRouter";
 import { Category, Currency, IProduct } from "models/types";
 import React from "react";
 import { connect } from "react-redux";
+import withRouter, { WithRouterProps } from "router/withRouter";
 import { allProducts } from "services/gql-requests";
-import capitalize from "utils/capitalize";
 import selectPrice from "utils/selectPrice";
-
 import {
   AddToCartBtn,
   HeaderContainer,
@@ -18,17 +16,22 @@ import {
   ProductCartIcon,
   ProductContainer,
   ProductImg,
-  ProductsGridContainer
+  ProductsGridContainer,
 } from "./CategoryPage.styles";
 
+interface CategoryPageProps extends Currency, WithRouterProps {
+  dispatch: AppDispatch;
+}
+
 class CategoryPageContainer extends React.PureComponent<
-  WithRouterProps & Currency & { dispatch: AppDispatch }
+  CategoryPageProps
 > {
   selectProduct(e: React.MouseEvent, product: string) {
     e.preventDefault();
     this.props.router?.navigate(`/products/${product}`);
   }
   selectCategory(categories: [Category]) {
+
     const [category] = categories.filter(
       (category) => category.name === this.props.router?.params.category
     );
@@ -53,17 +56,15 @@ class CategoryPageContainer extends React.PureComponent<
             this.props.label as string
           ) as [IProduct];
 
-
-
           return (
             <ProductsGridContainer>
-              <HeaderContainer>{capitalize(name)}</HeaderContainer>
+              <HeaderContainer>{name}</HeaderContainer>
               {products.map((product: IProduct) => (
                 <ProductContainer
                   key={product.id}
                   inStock={product.inStock}
                   onClick={(e) =>
-                    product.inStock && this.selectProduct(e, product.id)
+                    this.selectProduct(e, product.id)
                   }
                 >
                   {!product.inStock && (
@@ -90,6 +91,4 @@ class CategoryPageContainer extends React.PureComponent<
   }
 }
 
-export default connect(mapCurrenciesStateToProps)(
-  withRouter(CategoryPageContainer)
-);
+export default connect(mapCurrenciesStateToProps)(withRouter(CategoryPageContainer));

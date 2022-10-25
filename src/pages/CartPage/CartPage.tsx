@@ -1,10 +1,9 @@
-import { cartStateToProps, ICart } from "app/cart/cart.slice";
-import { mapCurrenciesStateToProps } from "app/currencies/currencies.slice";
+import { cartStateToProps } from "app/cart/cart.slice";
 import { AppDispatch } from "app/store";
 import { Header2 } from "common/typography/typography";
 import { RegularButton } from "components/elements";
 import { ProductsInCart } from "components/features";
-import withRouter from "hooks/withRouter";
+import { IProduct } from "models/types";
 import React from "react";
 import { connect } from "react-redux";
 import { formatPrice } from "utils/formatPrice";
@@ -12,25 +11,24 @@ import {
   CartContainer,
   CartSumUp,
   SumUpHeaders,
-  SumUpValues,
+  SumUpValues
 } from "./CartPage.styles";
 
-interface CartPage {
-  cart: ICart;
+interface CartPageProps {
+  cart: IProduct[];
   dispatch: AppDispatch;
   productsAmount: number;
-  cartTotalPrice: string;
+  totalPrice: string;
 }
 
-class CartPage extends React.PureComponent<CartPage> {
+class CartPage extends React.PureComponent<CartPageProps>{
   render() {
-
-    const { cart, dispatch, productsAmount, cartTotalPrice } = this.props;
-    const [taxRemnant, priceWithTax] = formatPrice(cartTotalPrice)
+    const { cart, productsAmount, totalPrice } = this.props;
+    const [taxRemnant, priceWithTax] = formatPrice(totalPrice)
     return (
       <CartContainer>
         <Header2>Cart</Header2>
-        <ProductsInCart secondary cart={cart} dispatch={dispatch} />
+        <ProductsInCart secondary cart={cart} />
         <CartSumUp>
           <SumUpHeaders>
             Tax 21%:{"\n"}
@@ -51,4 +49,4 @@ class CartPage extends React.PureComponent<CartPage> {
   }
 }
 
-export default connect(cartStateToProps)(withRouter(CartPage));
+export default connect(cartStateToProps)(CartPage);

@@ -9,6 +9,7 @@ export const ProductCount = styled.div<{ secondary?: boolean }>`
   font-size: 16px;
   font-weight: 500;
   line-height: 26px;
+  margin-inline: 8px;
 
   ${({ secondary }) =>
     secondary &&

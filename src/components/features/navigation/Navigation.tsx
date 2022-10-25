@@ -1,12 +1,10 @@
 import { Query } from "@apollo/client/react/components";
 import logo from "assets/logo.svg";
 import Modal from "components/layout/modal/Modal";
-import withRouter, { WithRouterProps } from "hooks/withRouter";
 import { Category, Currency } from "models/types";
 import React from "react";
 import { categoriesAndCurrencies } from "services/gql-requests";
 import { CartModal, DropDown } from "..";
-
 import {
   CartAndCurrencyContainer,
   Logo,
@@ -17,15 +15,16 @@ import {
   NavList,
 } from "./Navigation.styles";
 
+interface NavigationProps {
+  handleClick?: () => void;
+}
+
 interface NavigationState {
   isExtended: boolean;
 }
 
-class Navigation extends React.PureComponent<
-  WithRouterProps & { handleClick?: () => void },
-  NavigationState
-> {
-  constructor(props: WithRouterProps & { handleClick?: () => void }) {
+class Navigation extends React.PureComponent<NavigationProps, NavigationState> {
+  constructor(props: NavigationProps) {
     super(props);
     this.state = { isExtended: false };
   }
@@ -49,7 +48,15 @@ class Navigation extends React.PureComponent<
                 {data?.categories.map(({ name }) => {
                   return (
                     <NavItem key={name}>
-                      <NavLink to={name}>{name}</NavLink>
+                      <NavLink
+                        to={name}
+                        onClick={() => this.toggleNavBar()}
+                        $active={
+                          window.location.pathname.endsWith(name) ? true : false
+                        }
+                      >
+                        {name}
+                      </NavLink>
                     </NavItem>
                   );
                 })}
@@ -59,7 +66,7 @@ class Navigation extends React.PureComponent<
                 <Modal>
                   <DropDown data={data?.currencies} />
                 </Modal>
-                <Modal withBackground >
+                <Modal withBackground>
                   <CartModal />
                 </Modal>
               </CartAndCurrencyContainer>
@@ -71,4 +78,4 @@ class Navigation extends React.PureComponent<
   }
 }
 
-export default withRouter(Navigation);
+export default Navigation;

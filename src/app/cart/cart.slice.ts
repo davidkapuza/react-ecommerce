@@ -1,96 +1,67 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IProduct } from "models/types";
+import { deepEqual } from "utils/deepEqual";
 import { RootState } from "../store";
 
-export type ICart = Array<{
-  [set: string]: { products: IProduct[]; count?: number };
-}>;
+const initialState: IProduct[] = [];
 
-const initialState: { productsSet: ICart } = {
-  productsSet: [],
-};
+// ? wasn't sure if loadash is allowed, would use loadash uniqueId and deepEqual
 
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<{ product: IProduct }>) => {
-      const targetSet = state.productsSet.findIndex(
-        (set) => set[action.payload.product.id]
-      );
+      const target = state.findIndex((product) => {
+        return product.id === action.payload.product.id
+          ? deepEqual(product.attributes, action.payload.product.attributes)
+          : false;
+      });
 
-      -1 !== targetSet
-        ? (state.productsSet = state.productsSet.map((set, idx) => {
-            return idx === targetSet
-              ? {
-                  [action.payload.product.id]: {
-                    products: [
-                      ...state.productsSet[targetSet][
-                        action.payload.product.id
-                      ].products,
-                      action.payload.product,
-                    ],
-                    count:
-                      state.productsSet[targetSet][action.payload.product.id]
-                        .products.length + 1,
-                  },
-                }
-              : set;
-          }))
-        : (state.productsSet = [
-            ...state.productsSet,
-            {
-              [action.payload.product.id]: {
-                products: [action.payload.product],
-                count: 1,
-              },
-            },
-          ]);
+      ~target
+        ? (state[target].count += 1)
+        : state.push({
+            ...action.payload.product,
+            count: 1,
+            uid: Math.random(),
+          });
     },
     removeFromCart: (state, action: PayloadAction<{ product: IProduct }>) => {
-      const targetSet = state.productsSet.findIndex(
-        (set) => set[action.payload.product.id]
+      const target = state.findIndex(
+        (product) =>
+          product.uid === action.payload.product.uid && product.count > 1
       );
-      if (-1 !== targetSet) {
-        const targetProducts =
-          state.productsSet[targetSet][action.payload.product.id].products;
-
-        state.productsSet = state.productsSet.map((set, idx) =>
-          idx === targetSet
-            ? {
-                [action.payload.product.id]: {
-                  products: targetProducts.slice(0, targetProducts.length - 1),
-                  count: targetProducts ? targetProducts.length - 1 : 0,
-                },
-              }
-            : set
-        );
+      if (~target) {
+        state[target].count -= 1;
+        return;
       }
+
+      return state.filter(
+        (product) => product.uid !== action.payload.product.uid
+      );
     },
   },
 });
 
 export const { addToCart, removeFromCart } = cartSlice.actions;
 
+
 export const cartStateToProps = (state: RootState) => {
-  const { productsAmount, cartTotalPrice } = state.cart.productsSet.reduce(
-    (acc, set) => {
-      const [{ products }] = Object.values(set);
-      acc.productsAmount += products.length;
-      acc.cartTotalPrice += products.reduce(
-        (acc, product) => (acc += product.currentPrice?.amount ?? 0),
-        0
-      );
+  const { productsAmount, totalPrice } = state.cart.reduce(
+    (acc, product) => {
+      acc.productsAmount += product.count;
+      acc.totalPrice += (product?.currentPrice?.amount ?? 0) * +product.count;
       return acc;
     },
-    { productsAmount: 0, cartTotalPrice: 0 }
+    { productsAmount: 0, totalPrice: 0 }
   );
 
   return {
-    cart: state.cart.productsSet,
-    productsAmount: productsAmount,
-    cartTotalPrice: (state.currency.symbol ?? "") + cartTotalPrice,
+    cart: state.cart,
+    productsAmount,
+    totalPrice: (state.currency.symbol ?? "") + totalPrice,
   };
 };
+
 
 export default cartSlice.reducer;

@@ -1,10 +1,11 @@
-import { cartStateToProps, ICart } from "app/cart/cart.slice";
+import { cartStateToProps } from "app/cart/cart.slice";
 import { AppDispatch } from "app/store";
 import { Header6, PriceLabel } from "common/typography/typography";
 import { RegularButton } from "components/elements";
-import withRouter, { WithRouterProps } from "hooks/withRouter";
+import { IProduct } from "models/types";
 import React from "react";
 import { connect } from "react-redux";
+import withRouter, { WithRouterProps } from "router/withRouter";
 import { formatPrice } from "utils/formatPrice";
 
 import ProductsInCart from "../products-in-cart/ProductsInCart";
@@ -17,19 +18,23 @@ import {
   Summary,
 } from "./CartModal.styles";
 
-interface CartModalProps extends WithRouterProps {
+interface CartModalProps extends WithRouterProps{
   toggleModal?: () => void;
   showModal?: boolean;
-  cart: ICart;
+  cart: IProduct[];
   dispatch: AppDispatch;
   productsAmount: number;
-  cartTotalPrice: string;
+  totalPrice: string;
 }
 
-class CartModal extends React.Component<CartModalProps> {
+class CartModal extends React.PureComponent<CartModalProps> {
+  openCartPage() {
+    this.props.toggleModal?.call(this)
+    this.props.router?.navigate("cart")
+  }
   render() {
-    const { cart, productsAmount, cartTotalPrice, dispatch } = this.props;
-    const [taxRemnant, priceWithTax] = formatPrice(cartTotalPrice)
+    const { cart, productsAmount, totalPrice } = this.props;
+    const [taxRemnant, priceWithTax] = formatPrice(totalPrice)
     return (
       <>
         <CartIconContainer onClick={() => this.props.toggleModal?.call(this)}>
@@ -43,14 +48,14 @@ class CartModal extends React.Component<CartModalProps> {
             <Header6>
               <strong>My Bag</strong>, {productsAmount} items
             </Header6>
-            <ProductsInCart cart={cart} dispatch={dispatch} />
+            <ProductsInCart cart={cart} />
             <Summary>
               Total:
               <PriceLabel sm>{priceWithTax}</PriceLabel>
             </Summary>
             <ButtonsContainer>
               <RegularButton
-                onClick={() => this.props.router?.navigate("cart")}
+                onClick={() => this.openCartPage()}
               >
                 View Bag
               </RegularButton>

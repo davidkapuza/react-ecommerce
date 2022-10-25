@@ -1,23 +1,24 @@
 import { Query } from "@apollo/client/react/components";
 import { mapCurrenciesStateToProps } from "app/currencies/currencies.slice";
 import { Gallery, ProductCustomisation } from "components/features";
-import withRouter, { WithRouterProps } from "hooks/withRouter";
 import { Currency, IProduct } from "models/types";
 import React from "react";
 import { connect } from "react-redux";
+import withRouter, { WithRouterProps } from "router/withRouter";
 import { selectedProduct } from "services/gql-requests";
 import selectPrice from "utils/selectPrice";
 import {
   ProductGalleryContainer,
-  ProductGridContainer
+  ProductGridContainer,
 } from "./ProductPage.styles";
 
 class ProductPageContainer extends React.PureComponent<
-  WithRouterProps & Currency
+  Currency & WithRouterProps
 > {
   render() {
     return (
       <Query<{ product: IProduct }>
+        // ? rgx for replacing everything between "/" "/"
         query={selectedProduct(this.props.router?.params?.product ?? "")}
       >
         {({ loading, error, data }) => {
@@ -29,16 +30,16 @@ class ProductPageContainer extends React.PureComponent<
             this.props.label as string
           ) as IProduct;
 
-
           return (
             <ProductGridContainer>
-                <ProductGalleryContainer>
-                  <Gallery
-                    gallery={product.gallery}
-                    defaultImg={product.gallery[0]}
-                  />
-                </ProductGalleryContainer>
-              <ProductCustomisation product={product}/>
+              <ProductGalleryContainer>
+                <Gallery
+                  inStock={product.inStock}
+                  gallery={product.gallery}
+                  defaultImg={product.gallery[0]}
+                />
+              </ProductGalleryContainer>
+              <ProductCustomisation isProductPage product={product} />
             </ProductGridContainer>
           );
         }}

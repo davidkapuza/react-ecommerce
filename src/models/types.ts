@@ -17,7 +17,6 @@ export type AttributeSet = {
   items: Attribute[];
 };
 export type IProduct = {
-  uniqueId: string;
   id: string;
   name: string;
   inStock: boolean;
@@ -28,7 +27,8 @@ export type IProduct = {
   prices: [Price];
   currentPrice?: Price;
   brand: string;
-
+  count: number
+  uid: number
 };
 
 export type Category = {

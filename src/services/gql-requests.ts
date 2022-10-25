@@ -32,6 +32,7 @@ export const allProducts = () => gql`
           }
         }
         name
+        brand
         inStock
         gallery
         prices {
@@ -54,6 +55,7 @@ query {
     gallery
     brand
     description
+    inStock
     attributes {
 			id
       name
