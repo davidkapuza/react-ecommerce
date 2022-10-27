@@ -7,7 +7,6 @@ import React from "react";
 import { connect } from "react-redux";
 import withRouter, { WithRouterProps } from "router/withRouter";
 import { formatPrice } from "utils/formatPrice";
-
 import ProductsInCart from "../products-in-cart/ProductsInCart";
 import {
   ButtonsContainer,
@@ -30,11 +29,11 @@ interface CartModalProps extends WithRouterProps{
 class CartModal extends React.PureComponent<CartModalProps> {
   openCartPage() {
     this.props.toggleModal?.call(this)
-    this.props.router?.navigate("cart")
+    this.props.router.navigate("cart")
   }
   render() {
     const { cart, productsAmount, totalPrice } = this.props;
-    const [taxRemnant, priceWithTax] = formatPrice(totalPrice)
+    const [, priceWithTax] = formatPrice(totalPrice)
     return (
       <>
         <CartIconContainer onClick={() => this.props.toggleModal?.call(this)}>

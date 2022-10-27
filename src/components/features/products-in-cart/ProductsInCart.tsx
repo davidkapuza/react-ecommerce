@@ -16,10 +16,7 @@ interface ProductInCart extends Currency {
 class ProductsInCart extends React.PureComponent<ProductInCart> {
   render() {
     const { cart, dispatch, secondary } = this.props;
-    const products = selectPrice(
-      cart as IProduct[],
-      this.props.label as string
-    ) as [IProduct];
+    const products = selectPrice(cart, this.props.label);
     return (
       <ProductsContainer secondary={secondary}>
         {products.map((product) => (

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const GalleryContainer = styled.div<{inStock: boolean, isOne: boolean}>`
+export const GalleryWrapper = styled.div<{inStock: boolean, isOne: boolean}>`
   display: flex;
   flex-direction: column;
   width: 91px;
@@ -34,10 +34,3 @@ export const SelectedImage = styled.img`
   object-fit: cover;
   padding: 0 40px 40px 40px;
 `;
-
-
-export const SliderWrapper = styled.div`
-
-
-
-`

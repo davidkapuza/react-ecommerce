@@ -4,8 +4,8 @@ import { PriceLabel } from "common/typography/typography";
 import { CountChange } from "components/elements";
 import { IProduct } from "models/types";
 import React, { memo } from "react";
-import ImagesSlider from "../images-slider/ImagesSlider";
-import ProductAttributes from "../product-attributes/ProductAttributes";
+import ImagesSliderContainer from "../images-slider/ImagesSliderContainer";
+import ProductAttributes from "../product-attributes/ProductAttributesContainer";
 import {
   StyledProduct,
   ProductDescription,
@@ -20,7 +20,7 @@ class Product extends React.PureComponent<{
   render() {
     const { product, dispatch, secondary } = this.props;
     return (
-      <StyledProduct secondary={secondary }>
+      <StyledProduct secondary={secondary}>
         <ProductDescription>
           <ProductHeaders secondary={secondary}>
             <h1>{product.name}</h1>
@@ -44,7 +44,10 @@ class Product extends React.PureComponent<{
           decrease={() => dispatch(removeFromCart({ product }))}
           count={product.count}
         />
-        <ImagesSlider gallery={product.gallery} secondary={secondary ?? false} />
+        <ImagesSliderContainer
+          gallery={product.gallery}
+          secondary={secondary ?? false}
+        />
       </StyledProduct>
     );
   }

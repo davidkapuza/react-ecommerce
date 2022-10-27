@@ -4,7 +4,7 @@ import {
 import { StyledButton } from "components/elements/buttons/RegularButton/RegularButton.styles";
 import styled from "styled-components";
 
-export const ProductCustomisationContainer = styled.form`
+export const ProductCustomisationWrapper = styled.form`
   display: flex;
   flex-direction: column;
   & ${PriceLabel} {

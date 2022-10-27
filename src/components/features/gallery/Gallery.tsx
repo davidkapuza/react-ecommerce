@@ -1,52 +1,30 @@
 import React from "react";
 import {
-  GalleryContainer,
   GalleryImage,
+  GalleryWrapper,
   SelectedImage,
   SelectedImgWrapper,
-  SliderWrapper,
 } from "./GalleryStyles";
 
 interface GalleryProps {
-  gallery: [string];
-  defaultImg: string;
-  inStock: boolean;
-}
-
-interface GalleryState {
   selectedImg: string;
+  gallery: string[];
+  inStock: boolean;
+  selectImg: (img: string) => void;
 }
 
-export default class Gallery extends React.PureComponent<
-  GalleryProps,
-  GalleryState
-> {
-  constructor(props: GalleryProps) {
-    super(props);
-    this.state = { selectedImg: ""};
-  }
-
-  selectImg(img: string) {
-    this.setState({ selectedImg: img });
-  }
+export default class Gallery extends React.PureComponent<GalleryProps> {
   render() {
+    const { selectedImg, gallery, selectImg, inStock } = this.props;
     return (
-      <> 
-        <GalleryContainer
-          isOne={this.props.gallery.length <= 1}
-          inStock={this.props.inStock} >
-          {this.props.gallery.map((img) => (
-            <GalleryImage
-              key={img}
-              src={img}
-              onClick={() => this.selectImg(img)}
-            />
+      <>
+        <GalleryWrapper isOne={gallery.length <= 1} inStock={inStock}>
+          {gallery.map((img) => (
+            <GalleryImage key={img} src={img} onClick={() => selectImg(img)} />
           ))}
-        </GalleryContainer>
+        </GalleryWrapper>
         <SelectedImgWrapper>
-          <SelectedImage
-            src={this.state.selectedImg || this.props.gallery[0]}
-          />
+          <SelectedImage src={selectedImg || gallery[0]} />
         </SelectedImgWrapper>
       </>
     );

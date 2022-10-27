@@ -10,37 +10,27 @@ import {
 interface ImageSliderProps {
   gallery: string[];
   secondary: boolean;
-}
-interface ImageSliderState {
   imgIdx: number;
+  next: () => void;
+  prev: () => void;
 }
 
-export default class ImagesSlider extends React.PureComponent<ImageSliderProps, ImageSliderState> {
-  constructor(props: ImageSliderProps) {
-    super(props);
-    this.state = { imgIdx: 0 };
-  }
-  next = () => {
-    this.setState({ imgIdx: this.state.imgIdx + 1 })
-    if (this.state.imgIdx === this.props.gallery.length - 1) this.setState({imgIdx: 0})
-  }
-  prev = () => {
-    this.setState({ imgIdx: this.state.imgIdx - 1 })
-    if (this.state.imgIdx === 0) this.setState({imgIdx: this.props.gallery.length - 1})
-  }
+export default class ImagesSlider extends React.PureComponent<ImageSliderProps> {
   render() {
-    console.log(this.props.secondary)
+    const { gallery, next, prev, imgIdx, secondary } = this.props;
     return (
-      <SliderContainer secondary={this.props.secondary}>
-        <ImageContainer src={this.props.gallery[this.state.imgIdx]}></ImageContainer>
-        <ButtonsWrapper>
-          <IconButton filled onClick={() => this.next()}>
-            <ArrowRightIcon />
-          </IconButton>
-          <IconButton filled onClick={() => this.prev()}>
-            <ArrowRightIcon />
-          </IconButton>
-        </ButtonsWrapper>
+      <SliderContainer secondary={secondary}>
+        <ImageContainer src={gallery[imgIdx]}></ImageContainer>
+        {secondary && (
+          <ButtonsWrapper>
+            <IconButton filled onClick={() => next()}>
+              <ArrowRightIcon />
+            </IconButton>
+            <IconButton filled onClick={() => prev()}>
+              <ArrowRightIcon />
+            </IconButton>
+          </ButtonsWrapper>
+        )}
       </SliderContainer>
     );
   }

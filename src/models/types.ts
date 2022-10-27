@@ -20,12 +20,12 @@ export type IProduct = {
   id: string;
   name: string;
   inStock: boolean;
-  gallery: [string];
+  gallery: string[];
   description: string;
   category: string;
   attributes: AttributeSet[];
-  prices: [Price];
-  currentPrice?: Price;
+  prices: Price[];
+  currentPrice: Price;
   brand: string;
   count: number
   uid: number
@@ -33,12 +33,12 @@ export type IProduct = {
 
 export type Category = {
   name: string;
-  products?: IProduct[];
+  products: IProduct[];
 };
 
 export type Currency = {
-  label?: string;
-  symbol?: string;
+  label: string;
+  symbol: string;
 };
 
 
