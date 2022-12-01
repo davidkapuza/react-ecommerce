@@ -15,6 +15,7 @@
     "@types/react-dom": "^18.0.6",
     "@types/styled-components": "^5.1.26",
     "@types/uuid": "^8.3.4",
+    "concurrently": "^7.6.0",
     "graphql": "^16.6.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
@@ -31,7 +32,7 @@
     "webfontloader": "^1.6.28"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"react-scripts start\" \"npm run dev --prefix endpoint\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
