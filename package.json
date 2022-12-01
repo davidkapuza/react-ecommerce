@@ -32,7 +32,7 @@
     "webfontloader": "^1.6.28"
   },
   "scripts": {
-    "start": "concurrently \"npm run dev --prefix endpoint\" \"react-scripts start\"",
+    "start": "concurrently \"npm run start --prefix endpoint\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
